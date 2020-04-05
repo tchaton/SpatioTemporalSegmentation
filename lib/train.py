@@ -13,6 +13,11 @@ from lib.solvers import initialize_optimizer, initialize_scheduler
 
 from MinkowskiEngine import SparseTensor
 
+def check_nan_or_inf(tensor):
+  if torch.isnan(tensor).sum() > 0 or torch.isinf(tensor).sum() > 0:
+    return True
+  else:
+    return False
 
 def validate(model, val_data_loader, writer, curr_iter, config, transform_data_fn):
   v_loss, v_score, v_mAP, v_mIoU = test(model, val_data_loader, config, transform_data_fn)
@@ -79,8 +84,12 @@ def train(model, data_loader, val_data_loader, config, transform_data_fn=None):
 
         # Preprocess input
         color = input[:, :3].int()
-        if config.normalize_color:
+        if config.normalize_color and False:
           input[:, :3] = input[:, 1:] / 255. - 0.5
+
+        if check_nan_or_inf(input) or check_nan_or_inf(coords) or check_nan_or_inf(target):
+          import pdb; pdb.set_trace()
+
         sinput = SparseTensor(input, coords).to(device)
 
         data_time += data_timer.toc(False)

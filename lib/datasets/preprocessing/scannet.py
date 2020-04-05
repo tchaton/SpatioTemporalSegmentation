@@ -1,10 +1,19 @@
 from pathlib import Path
+import os
+import sys
+
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+
+PATH = os.path.join(DIR_PATH, "..", "..", "..")
+sys.path.append(PATH)
+
+print(PATH)
 
 import numpy as np
 from lib.pc_utils import read_plyfile, save_point_cloud
 from concurrent.futures import ProcessPoolExecutor
-SCANNET_RAW_PATH = Path('/path/ScanNet_data/')
-SCANNET_OUT_PATH = Path('/path/scans_processed/')
+SCANNET_RAW_PATH = Path('/home/tcn02/SpatioTemporalSegmentation/data/scannet/raw')
+SCANNET_OUT_PATH = Path('/home/tcn02/SpatioTemporalSegmentation/data/scannet/processed')
 TRAIN_DEST = 'train'
 TEST_DEST = 'test'
 SUBSETS = {TRAIN_DEST: 'scans', TEST_DEST: 'scans_test'}
@@ -32,7 +41,8 @@ def handle_process(path):
     assert pointcloud.shape[0] == label.shape[0]
     assert np.allclose(pointcloud[:, :3], label[:, :3])
   else:  # Label may not exist in test case.
-    label = np.zeros_like(pointcloud)
+    raise Exception("labels file doesn't exist")
+  print(np.unique(label[:, -1], return_counts=True))
   out_f = phase_out_path / (f.name[:-len(POINTCLOUD_FILE)] + f.suffix)
   processed = np.hstack((pointcloud[:, :6], np.array([label[:, -1]]).T))
   save_point_cloud(processed, out_f, with_label=True, verbose=False)

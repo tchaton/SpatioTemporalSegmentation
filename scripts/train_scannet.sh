@@ -9,7 +9,7 @@ set -o pipefail
 export PYTHONUNBUFFERED="True"
 export CUDA_VISIBLE_DEVICES=$1
 
-export BATCH_SIZE=${BATCH_SIZE:-9}
+export BATCH_SIZE=4
 
 export TIME=$(date +"%Y-%m-%d_%H-%M-%S")
 
@@ -28,8 +28,9 @@ python -m main \
     --batch_size $BATCH_SIZE \
     --scheduler PolyLR \
     --max_iter 120000 \
-    --train_limit_numpoints 1200000 \
+    --train_limit_numpoints 120000000 \
     --train_phase train \
+    --scannet_path "/home/tcn02/SpatioTemporalSegmentation/data/scannet/processed/train" \
     $3 2>&1 | tee -a "$LOG"
 
 export TIME=$(date +"%Y-%m-%d_%H-%M-%S")

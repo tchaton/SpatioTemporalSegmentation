@@ -19,6 +19,9 @@ import torch
 # Train deps
 from config import get_config
 
+DIR_PATH = os.path.realpath(__file__)
+sys.path.append(DIR_PATH)
+
 from lib.test import test
 from lib.train import train
 from lib.utils import load_state_with_same_shape, get_torch_device, count_parameters

@@ -6,6 +6,10 @@ from pathlib import Path
 import numpy as np
 from scipy import spatial
 
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+print(DIR_PATH)
+sys.path.append(DIR_PATH)
+
 from lib.dataset import VoxelizationDataset, DatasetPhase, str2datasetphase_type
 from lib.pc_utils import read_plyfile, save_point_cloud
 from lib.utils import read_txt, fast_hist, per_class_iu

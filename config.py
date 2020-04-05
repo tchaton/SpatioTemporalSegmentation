@@ -103,7 +103,7 @@ data_arg.add_argument('--val_batch_size', type=int, default=1)
 data_arg.add_argument('--test_batch_size', type=int, default=1)
 data_arg.add_argument('--cache_data', type=str2bool, default=False)
 data_arg.add_argument(
-    '--num_workers', type=int, default=1, help='num workers for train/test dataloader')
+    '--num_workers', type=int, default=0, help='num workers for train/test dataloader')
 data_arg.add_argument('--num_val_workers', type=int, default=1, help='num workers for val dataloader')
 data_arg.add_argument('--ignore_label', type=int, default=255)
 data_arg.add_argument('--return_transformation', type=str2bool, default=False)

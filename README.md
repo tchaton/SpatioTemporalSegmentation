@@ -26,10 +26,6 @@ First, install pytorch following the [instruction](https://pytorch.org). Next, i
 
 ```
 sudo apt install libopenblas-dev
-
-pip3 install torch torchvision
-
-pip3 install -U MinkowskiEngine
 ```
 
 Next, clone the repository and install the rest of the requirements
@@ -39,7 +35,7 @@ git clone https://github.com/chrischoy/SpatioTemporalSegmentation/
 
 cd SpatioTemporalSegmentation
 
-pip install -r requirements.txt
+poetry install
 ```
 
 ### Troubleshooting
@@ -51,10 +47,16 @@ Please visit the MinkowskiEngine [issue pages](https://github.com/StanfordVL/Min
 
 1. Download the ScanNet dataset from [the official website](http://kaldir.vc.in.tum.de/scannet_benchmark/documentation). You need to sign the terms of use.
 
+```
+Get this file https://github.com/nicolas-chaulet/deeppointcloud-benchmarks/blob/master/scripts/datasets/download-scannet.py
+python download-scannet.py -o {path_to_raw} --types vh_clean_2.labels.ply
+```
+Reference this `raw / processed` path within `lib/datasets/preprocessing/scannet.py` and processed path within `/scripts/train_scannet.sh`
+
 2. Next, preprocess all scannet raw point cloud with the following command after you set the path correctly.
 
 ```
-python -m lib.datasets.preprocessing.scannet
+python lib/datasets/preprocessing/scannet.py
 ```
 
 3. Train the network with
